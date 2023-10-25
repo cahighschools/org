@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.template import loader
 
-from .fetch import page_from_path, text_from_page, path_from_string, create_heirarchy
+from .fetch import page_from_slug, text_from_page, create_heirarchy
 
 from .renderer.run import render_to_html, markdown_builder
 
@@ -45,8 +45,8 @@ def edit(request):
 
 
 def content(request: HttpRequest):
-    path = path_from_string(request.path, prefixes=1)
-    page = page_from_path(path)
+    slug = request.path.split('/')[1:]
+    page = page_from_slug(slug)
     text = text_from_page(page)
 
     if (text):

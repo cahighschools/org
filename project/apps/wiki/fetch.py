@@ -3,7 +3,7 @@ from .models import Category, Page, Revision, TextContent
 from typing import Optional, List
 
 
-def page_from_path(slugs: List[str]) -> Optional[Page]:
+def page_from_slug(slug: str) -> Optional[Page]:
     """
     get-started/fundamentals/changing-a-course
     ['get-started', 'fundamentals', 'changing-a-course']
@@ -12,20 +12,10 @@ def page_from_path(slugs: List[str]) -> Optional[Page]:
         moves to fundamentals (category)
             returns changing-a-course (page)
     """
-    if (not slugs or len(slugs) == 0): return 
-
-    # iterate to the direct parent of the page, we dont grab the page directly because
-    # iterating categories is pretty minimal in terms of cost and this way we can have
-    # local slugs (two "basic" page slugs in different categories)
-    parent = None
-    for i in range(len(slugs)-1):
-        try: 
-            parent = Category.objects.get(parent=parent, slug=slugs[i])
-        except Category.DoesNotExist:
-            return
+    if (not slug or slug == ''): return 
 
     try:
-        return Page.objects.get(parent=parent, slug=slugs[-1]) # use last slug
+        return Page.objects.get(slug=slug)
     except Page.DoesNotExist:
         return 
 
@@ -102,29 +92,6 @@ def text_from_page(page) -> Optional[str]:
     if (not content): return 
 
     return text_from_content(content)
-
-
-def text_from_path(path) -> Optional[str]:
-    """ ex. text_from_path(['hello-world', 'door']) outputs TextContent.text """
-
-    # the ultimate stack
-    page = page_from_path(path)
-    if (not page): return 
-
-    # TODO rev was having some problems being fetched from page if manually created
-    # something something order something?
-    revision = revision_from_page(page)
-    if (not revision): return 
-
-    content = content_from_revision(revision)
-    if (not content): return 
-
-    return text_from_content(content)
-
-
-def path_from_string(string: str, prefixes=1) -> str:
-    """ ex. path_from_string("/wiki/hello-world/door", 1) outputs ['hello-world', 'door'] """
-    return string[1:].split('/')[prefixes:]
 
 
 class CategoryWrapper:
