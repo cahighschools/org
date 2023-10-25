@@ -12,15 +12,6 @@ then
     done
 
     echo "02: PostgreSQL succesfully started!"
-
-    python3 manage.py flush --no-input
-    echo "01: Making migrations!"
-    python3 manage.py makemigrations
-
-    echo "02: Applying migrations!"
-    python3 manage.py migrate
-    
-    echo "04: Migrations applied successfully!"
 fi
 
 echo "03: Successful entrypoint!"
