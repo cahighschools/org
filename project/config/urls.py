@@ -7,9 +7,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("wiki/", include("apps.wiki.urls")),
     path("archive/", include("apps.archive.urls")),
     path("api/", include("apps.api.urls")),
+    path("wiki/", include("apps.wiki.urls")),
 ]
 
 # dev

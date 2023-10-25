@@ -2,7 +2,9 @@ from .models import Category, Page, Revision, TextContent
 
 from typing import Optional, List
 
-
+def slug_from_path(path, prefixes=1):
+    return path.split('/', 1)[prefixes:]
+    
 def page_from_slug(slug: str) -> Optional[Page]:
     """
     get-started/fundamentals/changing-a-course
@@ -131,3 +133,12 @@ def create_heirarchy() -> List[CategoryWrapper]:
     
     return heirarchy
         
+
+class H:
+    def __init__(self) -> None:
+        self.hierarchy = None
+    
+    def get(self):
+        if (not self.hierarchy):
+            self.hierarchy = create_heirarchy()
+        return self.hierarchy
