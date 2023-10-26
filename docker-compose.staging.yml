@@ -24,6 +24,7 @@ services:
       - 8000
     env_file:
       - ./env/staging/project.env
+      - ./env/staging/acme-companion.env
 
   nginx-proxy:
     container_name: nginx-proxy
