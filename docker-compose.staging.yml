@@ -25,7 +25,9 @@ services:
     env_file:
       - ./env/staging/project.env
       - ./env/staging/acme-companion.env
-
+    depends_on:
+      - db
+      
   nginx-proxy:
     container_name: nginx-proxy
     build: ./nginx
